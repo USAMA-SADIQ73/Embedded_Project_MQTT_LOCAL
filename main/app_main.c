@@ -41,8 +41,8 @@ esp_mqtt_client_handle_t client;
 
 
 
-//#define ActuatorNODE
-#define SensorNODE
+#define ActuatorNODE
+//define SensorNODE
 
 
  
@@ -77,7 +77,7 @@ void ActuatorTask(void *pvParameters)
                
                 gpio_set_level(2,1);
                 LEDState = 1;
-                msg_id = esp_mqtt_client_publish(client, "/Actuator/LED", "ON", 0, 1, 1);
+                msg_id = esp_mqtt_client_publish(client, "/Actuator/LED", "ON", 0, 0, 0);
                 ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
              }
@@ -86,7 +86,7 @@ void ActuatorTask(void *pvParameters)
                 
                 gpio_set_level(2,0);
                 LEDState = 0;
-                msg_id = esp_mqtt_client_publish(client, "/Actuator/LED", "OFF", 0, 1, 1);
+                msg_id = esp_mqtt_client_publish(client, "/Actuator/LED", "OFF", 0, 0, 0);
                 ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
              }
@@ -96,7 +96,7 @@ void ActuatorTask(void *pvParameters)
                
                 gpio_set_level(FAN_PIN_OUT,1);
                 FANState = 1;
-                msg_id = esp_mqtt_client_publish(client, "/Actuator/FAN", "ON", 0, 1, 1);
+                msg_id = esp_mqtt_client_publish(client, "/Actuator/FAN", "ON", 0, 0, 0);
                 ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
                // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
@@ -106,7 +106,7 @@ void ActuatorTask(void *pvParameters)
                 
                 gpio_set_level(FAN_PIN_OUT,0);
                 FANState = 0;
-                msg_id = esp_mqtt_client_publish(client, "/Actuator/FAN", "OFF", 0, 1, 1);
+                msg_id = esp_mqtt_client_publish(client, "/Actuator/FAN", "OFF", 0, 0, 0);
                 ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
              }
@@ -276,10 +276,10 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         // msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
         // ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
         
-        msg_id = esp_mqtt_client_subscribe(client, "/Actuator/LED", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "/Actuator/LED", 0);
         ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
 
-        msg_id = esp_mqtt_client_subscribe(client, "/Actuator/FAN", 2);
+        msg_id = esp_mqtt_client_subscribe(client, "/Actuator/FAN", 0);
         ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
 
         // msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
